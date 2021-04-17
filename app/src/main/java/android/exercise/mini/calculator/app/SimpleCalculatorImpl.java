@@ -41,14 +41,6 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
             output += MINUS;
         }
     }
-//
-//    private String lastNum(String s) {
-//        String res = "";
-//        for (int i = s.length() - 1; i >= 0 && s.charAt(i) != '+' && s.charAt(i) != '-'; i--) {
-//            res = s.charAt(i) + res;
-//        }
-//        return res;
-//    }
 
     @Override
     public void insertEquals() {
