@@ -3,55 +3,104 @@ package android.exercise.mini.calculator.app;
 import java.io.Serializable;
 
 public class SimpleCalculatorImpl implements SimpleCalculator {
+    private final String PLUS = "+";
+    private final String MINUS = "-";
 
-    // todo: add fields as needed
+    private String output = "";
 
     @Override
     public String output() {
-        // todo: return output based on the current state
-        return "implement me please";
+        if (output.isEmpty()) {
+            return "0";
+        }
+        return output;
     }
 
     @Override
     public void insertDigit(int digit) {
-        // todo: insert a digit
+        if (digit < 0 || digit > 9) {
+            throw new IllegalArgumentException("Digit is a number in the range of 0-9");
+        }
+        output += String.valueOf(digit);
     }
 
     @Override
     public void insertPlus() {
-        // todo: insert a plus
+        if (output.isEmpty()) {
+            output = "0" + PLUS;
+        } else if (Character.isDigit(output.charAt(output.length() - 1))) {
+            output += PLUS;
+        }
     }
 
     @Override
     public void insertMinus() {
-        // todo: insert a minus
+        if (output.isEmpty()) {
+            output = "0" + MINUS;
+        } else if (Character.isDigit(output.charAt(output.length() - 1))) {
+            output += MINUS;
+        }
     }
+//
+//    private String lastNum(String s) {
+//        String res = "";
+//        for (int i = s.length() - 1; i >= 0 && s.charAt(i) != '+' && s.charAt(i) != '-'; i--) {
+//            res = s.charAt(i) + res;
+//        }
+//        return res;
+//    }
 
     @Override
     public void insertEquals() {
-        // todo: calculate the equation. after calling `insertEquals()`, the output should be the result
-        //  e.g. given input "14+3", calling `insertEquals()`, and calling `output()`, output should be "17"
+        // deals with empty expression
+        if (output.isEmpty()) {
+            output = "0";
+            return;
+        }
+        // remove extra operators
+        if (!Character.isDigit(output.charAt(output.length() - 1))) {
+            deleteLast();
+        }
+
+        int first = 0, second = 0;
+        String op = PLUS;
+        for (char c : output.toCharArray()) {
+            if (Character.isDigit(c)) {
+                second = second * 10 + Character.getNumericValue(c);
+            } else {
+                first = eval(first, op, second);
+                second = 0;
+                op = String.valueOf(c);
+            }
+        }
+        first = eval(first, op, second);
+        output = String.valueOf(first);
+    }
+
+    private int eval(int a, String operator, int b) {
+        if (operator.equals(MINUS)) {
+            return a - b;
+        } else if (operator.equals(PLUS)) {
+            return a + b;
+        }
+        throw new IllegalArgumentException("Illegal operator, supports only '+','-'");
     }
 
     @Override
     public void deleteLast() {
-        // todo: delete the last input (digit, plus or minus)
-        //  e.g.
-        //  if input was "12+3" and called `deleteLast()`, then delete the "3"
-        //  if input was "12+" and called `deleteLast()`, then delete the "+"
-        //  if no input was given, then there is nothing to do here
+        if (!output.isEmpty()) {
+            output = output.substring(0, output.length() - 1);
+        }
     }
 
     @Override
     public void clear() {
-        // todo: clear everything (same as no-input was never given)
+        output = "";
     }
 
     @Override
     public Serializable saveState() {
-        CalculatorState state = new CalculatorState();
-        // todo: insert all data to the state, so in the future we can load from this state
-        return state;
+        return new CalculatorState(output);
     }
 
     @Override
@@ -60,17 +109,14 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
             return; // ignore
         }
         CalculatorState casted = (CalculatorState) prevState;
-        // todo: use the CalculatorState to load
+        output = casted.output;
     }
 
     private static class CalculatorState implements Serializable {
-    /*
-    TODO: add fields to this class that will store the calculator state
-    all fields must only be from the types:
-    - primitives (e.g. int, boolean, etc)
-    - String
-    - ArrayList<> where the type is a primitive or a String
-    - HashMap<> where the types are primitives or a String
-     */
+        String output;
+
+        public CalculatorState(String output) {
+            this.output = output;
+        }
     }
 }
