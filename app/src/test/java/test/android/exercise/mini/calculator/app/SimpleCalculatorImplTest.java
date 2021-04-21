@@ -33,6 +33,27 @@ public class SimpleCalculatorImplTest {
     }
 
     @Test
+    public void when_insertDigitAfterLeadingZero_then_leadingZeroIsEmitted(){
+        SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+        calculatorUnderTest.insertDigit(0);
+        calculatorUnderTest.insertDigit(1);
+        assertEquals("1", calculatorUnderTest.output());
+        calculatorUnderTest.insertPlus();
+        calculatorUnderTest.insertDigit(0);
+        assertEquals("1+0", calculatorUnderTest.output());
+        calculatorUnderTest.insertDigit(2);
+        assertEquals("1+2", calculatorUnderTest.output());
+        calculatorUnderTest.insertMinus();
+        calculatorUnderTest.insertDigit(0);
+        assertEquals("1+2-0", calculatorUnderTest.output());
+        calculatorUnderTest.insertDigit(3);
+        assertEquals("1+2-3", calculatorUnderTest.output());
+        calculatorUnderTest.insertDigit(0);
+        calculatorUnderTest.insertDigit(0);
+        assertEquals("1+2-300", calculatorUnderTest.output());
+    }
+
+    @Test
     public void when_insertMultipleOperators_then_outputShouldHaveOnlyTheFirst() {
         SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
         calculatorUnderTest.insertMinus();

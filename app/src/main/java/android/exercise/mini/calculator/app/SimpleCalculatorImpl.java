@@ -21,7 +21,15 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
         if (digit < 0 || digit > 9) {
             throw new IllegalArgumentException("Digit is a number in the range of 0-9");
         }
-        output += String.valueOf(digit);
+
+        String digitStr = String.valueOf(digit);
+
+        // deals with leading zero
+        int lastOperator = Math.max(output.lastIndexOf(PLUS), output.lastIndexOf(MINUS));
+        if (output.substring(Math.max(0, lastOperator + 1)).equals("0")) {
+            deleteLast();
+        }
+        output += digitStr;
     }
 
     @Override
