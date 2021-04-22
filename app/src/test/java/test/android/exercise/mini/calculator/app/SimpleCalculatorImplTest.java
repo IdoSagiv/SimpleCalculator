@@ -33,46 +33,84 @@ public class SimpleCalculatorImplTest {
     }
 
     @Test
-    public void when_insertDigitAfterLeadingZero_then_leadingZeroIsEmitted(){
+    public void when_insertDigitAfterLeadingZeroWithNoOperators_then_leadingZeroIsEmitted() {
         SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
         calculatorUnderTest.insertDigit(0);
         calculatorUnderTest.insertDigit(1);
         assertEquals("1", calculatorUnderTest.output());
+    }
+
+    @Test
+    public void when_insertDigitAfterLeadingZeroAfterPlus_then_leadingZeroIsEmitted() {
+        SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+        calculatorUnderTest.insertDigit(1);
         calculatorUnderTest.insertPlus();
         calculatorUnderTest.insertDigit(0);
         assertEquals("1+0", calculatorUnderTest.output());
         calculatorUnderTest.insertDigit(2);
         assertEquals("1+2", calculatorUnderTest.output());
-        calculatorUnderTest.insertMinus();
-        calculatorUnderTest.insertDigit(0);
-        assertEquals("1+2-0", calculatorUnderTest.output());
-        calculatorUnderTest.insertDigit(3);
-        assertEquals("1+2-3", calculatorUnderTest.output());
-        calculatorUnderTest.insertDigit(0);
-        calculatorUnderTest.insertDigit(0);
-        assertEquals("1+2-300", calculatorUnderTest.output());
     }
 
     @Test
-    public void when_insertMultipleOperators_then_outputShouldHaveOnlyTheFirst() {
+    public void when_insertDigitAfterLeadingZeroAfterMinus_then_leadingZeroIsEmitted() {
+        SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+        calculatorUnderTest.insertDigit(1);
+        calculatorUnderTest.insertMinus();
+        calculatorUnderTest.insertDigit(0);
+        assertEquals("1-0", calculatorUnderTest.output());
+        calculatorUnderTest.insertDigit(2);
+        assertEquals("1-2", calculatorUnderTest.output());
+    }
+
+    @Test
+    public void when_insertDoublePlus_then_outputShouldHaveOnlyOnePlus() {
+        SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+        calculatorUnderTest.insertPlus();
+        calculatorUnderTest.insertPlus();
+        assertEquals("0+", calculatorUnderTest.output());
+    }
+
+    @Test
+    public void when_insertDoubleMinus_then_outputShouldHaveOnlyOneMinus() {
         SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
         calculatorUnderTest.insertMinus();
         calculatorUnderTest.insertMinus();
+        assertEquals("0-", calculatorUnderTest.output());
+    }
+
+    @Test
+    public void when_insertPlusAfterMinus_then_outputShouldHaveOnlyOneMinus() {
+        SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+        calculatorUnderTest.insertMinus();
         calculatorUnderTest.insertPlus();
         assertEquals("0-", calculatorUnderTest.output());
+    }
 
-        calculatorUnderTest.clear();
-        calculatorUnderTest.insertPlus();
+    @Test
+    public void when_insertMinusAfterPlus_then_outputShouldHaveOnlyOnePlus() {
+        SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
         calculatorUnderTest.insertPlus();
         calculatorUnderTest.insertMinus();
         assertEquals("0+", calculatorUnderTest.output());
     }
+
 
     @Test
     public void when_callingInsertDigitWithIllegalNumber_then_exceptionShouldBeThrown() {
         SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
         try {
             calculatorUnderTest.insertDigit(357);
+            fail("should throw an exception and not reach this line");
+        } catch (RuntimeException e) {
+            // good :)
+        }
+    }
+
+    @Test
+    public void when_callingInsertDigitWithNegativeNumber_then_exceptionShouldBeThrown() {
+        SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+        try {
+            calculatorUnderTest.insertDigit(-1);
             fail("should throw an exception and not reach this line");
         } catch (RuntimeException e) {
             // good :)
@@ -91,7 +129,7 @@ public class SimpleCalculatorImplTest {
 
 
     @Test
-    public void when_callingInsertEquals_then_outputUpdates() {
+    public void when_callingInsertEqualsOneTime_then_outputUpdates() {
         // ToDo: finish this test, add cases
         SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
         calculatorUnderTest.insertDigit(3);
@@ -104,6 +142,20 @@ public class SimpleCalculatorImplTest {
         calculatorUnderTest.insertDigit(1);
         calculatorUnderTest.insertEquals();
         assertEquals("33", calculatorUnderTest.output());
+    }
+
+    @Test
+    public void when_callingInsertEqualsTwoTimes_then_outputUpdatesCorrectly() {
+        // ToDo: finish this test, add cases
+        SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+        calculatorUnderTest.insertDigit(9);
+        calculatorUnderTest.insertPlus();
+        calculatorUnderTest.insertDigit(1);
+        calculatorUnderTest.insertEquals();
+        calculatorUnderTest.insertMinus();
+        calculatorUnderTest.insertDigit(2);
+        calculatorUnderTest.insertEquals();
+        assertEquals("8", calculatorUnderTest.output());
     }
 
     @Test
