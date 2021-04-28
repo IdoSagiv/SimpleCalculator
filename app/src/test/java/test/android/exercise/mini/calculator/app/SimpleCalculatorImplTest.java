@@ -129,8 +129,20 @@ public class SimpleCalculatorImplTest {
 
 
     @Test
-    public void when_callingInsertEqualsOneTime_then_outputUpdates() {
-        // ToDo: finish this test, add cases
+    public void when_callingInsertEqualsTwice_then_outputUpdatesOnce() {
+        SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+        calculatorUnderTest.insertDigit(3);
+        calculatorUnderTest.insertMinus();
+        calculatorUnderTest.insertDigit(0);
+        calculatorUnderTest.insertEquals();
+        assertEquals("3", calculatorUnderTest.output());
+        calculatorUnderTest.insertEquals();
+        assertEquals("3", calculatorUnderTest.output());
+    }
+
+
+    @Test
+    public void when_callingInsertEqualsOneTimeWithMultipleOperators_then_outputUpdates() {
         SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
         calculatorUnderTest.insertDigit(3);
         calculatorUnderTest.insertDigit(2);
@@ -145,8 +157,52 @@ public class SimpleCalculatorImplTest {
     }
 
     @Test
+    public void when_callingInsertEqualsWithEmptyOutput_then_outputShouldBe0() {
+        SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+        calculatorUnderTest.insertEquals();
+        assertEquals("0", calculatorUnderTest.output());
+    }
+
+    @Test
+    public void when_callingInsertEqualsWithoutOperator_then_outputShouldBeTheInputNum() {
+        SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+        calculatorUnderTest.insertDigit(1);
+        calculatorUnderTest.insertEquals();
+        assertEquals("1", calculatorUnderTest.output());
+    }
+
+    @Test
+    public void when_callingInsertEqualsWithOpenOperator_then_outputShouldIgnoreTheOperator() {
+        SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+        calculatorUnderTest.insertDigit(1);
+        calculatorUnderTest.insertMinus();
+        calculatorUnderTest.insertEquals();
+        assertEquals("1", calculatorUnderTest.output());
+    }
+
+    @Test
+    public void when_callingInsertEqualsWithOneOperatorPosRes_then_outputShouldIgnoreTheOperator() {
+        SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+        calculatorUnderTest.insertDigit(9);
+        calculatorUnderTest.insertMinus();
+        calculatorUnderTest.insertDigit(3);
+        calculatorUnderTest.insertEquals();
+        assertEquals("6", calculatorUnderTest.output());
+    }
+
+    @Test
+    public void when_callingInsertEqualsWithOneOperatorNegRes_then_outputShouldIgnoreTheOperator() {
+        SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+        calculatorUnderTest.insertDigit(5);
+        calculatorUnderTest.insertMinus();
+        calculatorUnderTest.insertDigit(7);
+        calculatorUnderTest.insertEquals();
+        assertEquals("-2", calculatorUnderTest.output());
+    }
+
+
+    @Test
     public void when_callingInsertEqualsTwoTimes_then_outputUpdatesCorrectly() {
-        // ToDo: finish this test, add cases
         SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
         calculatorUnderTest.insertDigit(9);
         calculatorUnderTest.insertPlus();
@@ -160,7 +216,6 @@ public class SimpleCalculatorImplTest {
 
     @Test
     public void when_callingInsertEqualsWithNegResult_then_outputUpdates() {
-        // ToDo: finish this test, add cases
         SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
         calculatorUnderTest.insertDigit(3);
         calculatorUnderTest.insertMinus();
@@ -188,7 +243,6 @@ public class SimpleCalculatorImplTest {
 
     @Test
     public void when_callingDeleteLast_then_lastOutputShouldBeDeleted() {
-        // todo: implement test
         SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
         calculatorUnderTest.deleteLast();
         assertEquals("0", calculatorUnderTest.output());
@@ -212,7 +266,6 @@ public class SimpleCalculatorImplTest {
 
     @Test
     public void when_callingClear_then_outputShouldBeCleared() {
-        // todo: implement test
         SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
         calculatorUnderTest.clear();
         assertEquals("0", calculatorUnderTest.output());
@@ -261,16 +314,4 @@ public class SimpleCalculatorImplTest {
         secondCalculator.loadState(savedState);
         assertEquals("5+7", secondCalculator.output());
     }
-
-    // TODO:
-    //  the existing tests are not enough since they only test simple use-cases with small inputs.
-    //  write at least 10 methods to test correct behavior with complicated inputs or use-cases.
-    //  examples:
-    //  - given input "5+7-13<DeleteLast>25", expected output is "5+17-125"
-    //  - given input "9<Clear>12<Clear>8-7=", expected output is "1"
-    //  - given input "8-7=+4=-1=", expected output is "4"
-    //  - given input "999-888-222=-333", expected output is "-111-333"
-    //  - with 2 calculators, give them different inputs, then save state on first calculator and load the state into second calculator, make sure state loaded well
-    //  etc etc.
-    //  feel free to be creative in your tests!
 }
