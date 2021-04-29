@@ -72,8 +72,6 @@ public class MainActivityTest {
         assertEquals(expectedText, activityMainTextView.getText().toString()); // make sure that the activity shows text from calculator.output()
     }
 
-    // TODO: add tests for clicks on all buttons
-
     @Test
     public void when_userClicksButtonMinus_then_activityShouldForwardCallToCalculator_and_ShowTheExpectedCalculatorOutputRightAway() {
         // setup
