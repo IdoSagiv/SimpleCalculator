@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // for the testing mockito
         if (calculator == null) {
             calculator = new SimpleCalculatorImpl();
         }
@@ -31,17 +32,17 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.button2), findViewById(R.id.button3), findViewById(R.id.button4),
                 findViewById(R.id.button5), findViewById(R.id.button6), findViewById(R.id.button7),
                 findViewById(R.id.button8), findViewById(R.id.button9)};
-        TextView buttonEquals = findViewById(R.id.buttonEquals);
         TextView buttonPlus = findViewById(R.id.buttonPlus);
         TextView buttonMinus = findViewById(R.id.buttonMinus);
+        TextView buttonEquals = findViewById(R.id.buttonEquals);
         View buttonBackSpace = findViewById(R.id.buttonBackSpace);
         TextView buttonClear = findViewById(R.id.buttonClear);
 
-        // initial output value
+        // Initial the output text view value
         textViewCalculatorOutput.setText(calculator.output());
 
 
-        // assign on click listener to the views
+        // Assign onClickListener to the views
         for (int i = 0; i < digitButtons.length; i++) {
             digitButtons[i].setOnClickListener(digitButtonListener(i));
         }
@@ -85,6 +86,10 @@ public class MainActivity extends AppCompatActivity {
         textViewCalculatorOutput.setText(calculator.output());
     }
 
+    /**
+     * @param digit - digit to insert
+     * @return an OnClickListener that inserts the given digit and updates the output textView
+     */
     private View.OnClickListener digitButtonListener(int digit) {
         return v -> {
             calculator.insertDigit(digit);
