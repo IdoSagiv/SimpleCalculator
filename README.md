@@ -1,6 +1,10 @@
-# postpc-ex2+3
+# Simple Calculator
+This is a basic calculator app.<br/>
+This app was written as part of the PostPc course of The Hebrew University of Jerusalem.
 
-## AndroidCalculator - Calculator exercise for Android developers
+### App's Screen
+![Screenshot.png](addLink)
 
+### Ethical pledge
 I pledge the highest level of ethical principles in support of academic excellence.
 I ensure that all of my work reflects my own abilities and not those of someone else.
