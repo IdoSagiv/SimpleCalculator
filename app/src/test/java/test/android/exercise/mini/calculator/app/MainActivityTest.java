@@ -235,7 +235,6 @@ public class MainActivityTest {
         }
 
         TextView activityMainTextView = activityUnderTest.findViewById(R.id.textViewCalculatorOutput);
-//        View buttonUnderTest = activityUnderTest.findViewById(R.id.button6);
 
         // test
         buttonUnderTest.performClick();
